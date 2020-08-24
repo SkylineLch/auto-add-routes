@@ -73,15 +73,20 @@ ExcludedIPs = 127.0.0.1/32
 
 ### 示例ExpressVPN。
 由于ExpressVPN连接默认使用了自家DNS解析，所以需要以下设置
+
     1，在软件设计界面--Advanced--DNS--取消Only use ExpressVPN DNS servers while connected
+    
     2，设置主网卡和虚拟网卡DNS，首选DNS服务器设置为127.0.0.1，备用留空
+    
     3，设置主网卡和虚拟网卡跃点，网卡协议版本IPv4属性-高级-取消自动跃点，手动设置跃点，使主网卡跃点数＞虚拟网卡跃点数即可，如100>10
+    
     4，手动使用routes-up.bat和routes-down.bat写入和删除路由表，在CMD、PowerShell等terminal中使用route print查看
-    5，连接，然后找到如ip111.cn等网站查看效果
+    
+    5，启用overture，然后连接，去ip111.cn等网站查看效果
     
 ### 由于写入的是活动路由，可能在某些情况如重启、变更网卡等操作后需要重新设置，可以通过route print查看路由表是否存在。
 ### 还有一种情况，Overture由于某些原因进程消失，可能是端口冲突问题，情况比较复杂，通常重新打开就可以解决，但频繁关闭就需要检查网络原因。
-    
+### overture.vbs应放在overture-windows-amd64.exe同级目录下，如果主程序名称发生改变，自行编辑修改。
     
 ## 关于分流后国内访问慢，无法播放网站版权视频/音乐
 
