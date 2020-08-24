@@ -16,7 +16,7 @@ cmroute.dll会被上述批处理文件调用，作用是秒载/秒删路由表�
 
 #### `2020-2-22更新：Tunsafe集成Overture DNS服务，国内IP/域名自动使用国内DNS解析；海外域名/IP使用国外DNS解析`
 #### `2020-8-15更新：OpenVPN集成Overture DNS服务，国内IP/域名自动使用国内DNS解析；海外域名/IP使用国外DNS解析`
-
+#### `2020-8-24更新：增加其它类型服务设置使用Overture DNS服务方法，和添加一个隐藏式启动Overture的vbs`
 [Overture项目地址](https://github.com/shawn1m/overture)
 
 Overture使用方法可以参考：https://moe.best/tutorial/overture.html
@@ -69,9 +69,20 @@ ExcludedIPs = 127.0.0.1/32
 
 #### 3. OPENVPN点击Connect连接就会调用client_pre.bat将国内IP写进系统路由表，断开disconnect则会调用client_down.bat删除路由表。
 
+### 其它服务
 
-
-
+### 示例ExpressVPN。
+由于ExpressVPN连接默认使用了自家DNS解析，所以需要以下设置
+    1，在软件设计界面--Advanced--DNS--取消Only use ExpressVPN DNS servers while connected
+    2，设置主网卡和虚拟网卡DNS，首选DNS服务器设置为127.0.0.1，备用留空
+    3，设置主网卡和虚拟网卡跃点，网卡协议版本IPv4属性-高级-取消自动跃点，手动设置跃点，使主网卡跃点数＞虚拟网卡跃点数即可，如100>10
+    4，手动使用routes-up.bat和routes-down.bat写入和删除路由表，在CMD、PowerShell等terminal中使用route print查看
+    5，连接，然后找到如ip111.cn等网站查看效果
+    
+### 由于写入的是活动路由，可能在某些情况如重启、变更网卡等操作后需要重新设置，可以通过route print查看路由表是否存在。
+### 还有一种情况，Overture由于某些原因进程消失，可能是端口冲突问题，情况比较复杂，通常重新打开就可以解决，但频繁关闭就需要检查网络原因。
+    
+    
 ## 关于分流后国内访问慢，无法播放网站版权视频/音乐
 
 #### ~~因为你访问的国内网站有海外节点，当你使用WG/OPENVPN时DNS一般默认是8.8.8.8。这是一个海外的DNS，访问有海外节点的网站时会把你解析到海外节点，所以会被认为从大陆地区以外访问，这时候访问网站会变慢或者版权视频/音乐无法播放。解决办法是不要边用WG边上这些网站，这不是域名分流！~~
